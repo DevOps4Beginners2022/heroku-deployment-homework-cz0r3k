@@ -1,17 +1,18 @@
-ARG PORT
-
 FROM golang:1.17-alpine
+ARG PORT=8090
+ARG PROJECT_DIR=/app
 
-WORKDIR /app
+ENV PORT=${PORT}
+# ENV DATABASE_URL=tadama
 
-COPY go.mod ./
-COPY go.sum ./
-RUN go mod download
-
-COPY *.go ./
-
-RUN go build -o /app-server
+RUN mkdir $PROJECT_DIR && cd ${PROJECT_DIR}
+WORKDIR $PROJECT_DIR
 
 EXPOSE ${PORT}
 
-CMD [ "/app-server" ]
+COPY go.mod go.sum main.go $PROJECT_DIR/
+RUN go mod download && go mod verify
+
+RUN go build -o app-server
+
+CMD go run main.go

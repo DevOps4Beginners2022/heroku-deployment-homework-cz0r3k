@@ -1,0 +1,5 @@
+addons:
+  - plan: heroku-postgresql
+build:
+  docker:
+    web: Dockerfile
