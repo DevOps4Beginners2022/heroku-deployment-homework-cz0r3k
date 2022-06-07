@@ -14,4 +14,4 @@ RUN go mod download && go mod verify
 
 RUN go build -o app-server
 
-CMD go run main.go
+CMD [ "./app-server" ]
